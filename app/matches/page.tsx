@@ -77,6 +77,13 @@ export default function Matches() {
     style={{ fontFamily: 'var(--font-body)' }}
   >
     Discover
+    <Link
+  href="/likes"
+  className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+  style={{ fontFamily: 'var(--font-body)' }}
+>
+  Likes
+</Link>
   </Link>
   <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
     Matches

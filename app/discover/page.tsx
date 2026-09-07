@@ -96,6 +96,13 @@ export default function Discover() {
           <div className="flex items-center gap-5">
             <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
               Discover
+              <Link
+  href="/likes"
+  className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+  style={{ fontFamily: 'var(--font-body)' }}
+>
+  Likes
+</Link>
             </h1>
             <Link
               href="/matches"

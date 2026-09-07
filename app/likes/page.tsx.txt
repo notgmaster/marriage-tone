@@ -1,0 +1,197 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useUser } from '@clerk/nextjs'
+import { supabase } from '@/lib/supabase'
+import { UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+type Profile = {
+  clerk_user_id: string
+  name: string
+  age: number
+  bio: string
+  photo_url: string
+}
+
+export default function LikesPage() {
+  const { user } = useUser()
+  const router = useRouter()
+  const [likers, setLikers] = useState<Profile[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selected, setSelected] = useState<Profile | null>(null)
+  const [actionLoading, setActionLoading] = useState(false)
+
+  useEffect(() => {
+    if (!user) return
+
+    async function load() {
+      setLoading(true)
+
+      // People who liked me
+      const { data: swipeRows } = await supabase
+        .from('swipes')
+        .select('swiper_id')
+        .eq('swiped_id', user!.id)
+        .eq('direction', 'like')
+
+      if (!swipeRows || swipeRows.length === 0) {
+        setLikers([])
+        setLoading(false)
+        return
+      }
+
+      const ids = swipeRows.map((r) => r.swiper_id)
+
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('clerk_user_id, name, age, bio, photo_url')
+        .in('clerk_user_id', ids)
+
+      setLikers((profiles as Profile[]) || [])
+      setLoading(false)
+    }
+
+    load()
+  }, [user])
+
+  async function likeBack(target: Profile) {
+    if (!user || actionLoading) return
+    setActionLoading(true)
+
+    // Save my like
+    await supabase.from('swipes').insert({
+      swiper_id: user.id,
+      swiped_id: target.clerk_user_id,
+      direction: 'like',
+    })
+
+    // Create match (mutual)
+    const [user1_id, user2_id] = [user.id, target.clerk_user_id].sort()
+    const { data: match } = await supabase
+      .from('matches')
+      .insert({ user1_id, user2_id })
+      .select()
+      .single()
+
+    setActionLoading(false)
+    setSelected(null)
+
+    if (match) {
+      router.push(`/messages/${match.id}`)
+    } else {
+      router.push('/matches')
+    }
+  }
+
+  return (
+    <main className="min-h-screen bg-white flex flex-col">
+      {/* Header */}
+      <header className="border-b border-gray-100">
+        <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link href="/discover" className="text-sm text-[#3B0A0A]/60 hover:text-[#3B0A0A]" style={{ fontFamily: 'var(--font-body)' }}>
+              Discover
+            </Link>
+            <Link href="/matches" className="text-sm text-[#3B0A0A]/60 hover:text-[#3B0A0A]" style={{ fontFamily: 'var(--font-body)' }}>
+              Matches
+            </Link>
+            <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
+              Likes
+            </h1>
+          </div>
+          <UserButton />
+        </div>
+      </header>
+
+      <div className="flex-1 px-4 py-6">
+        <div className="max-w-lg mx-auto">
+          {loading ? (
+            <p className="text-center text-[#3B0A0A]/50 py-20" style={{ fontFamily: 'var(--font-body)' }}>
+              Loading...
+            </p>
+          ) : likers.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-4xl mb-3">🔔</div>
+              <p className="text-xl font-semibold text-[#3B0A0A] mb-2" style={{ fontFamily: 'var(--font-display)' }}>
+                No likes yet
+              </p>
+              <p className="text-sm text-[#3B0A0A]/60" style={{ fontFamily: 'var(--font-body)' }}>
+                When someone likes your profile, they’ll appear here.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {likers.map((p) => (
+                <button
+                  key={p.clerk_user_id}
+                  onClick={() => setSelected(p)}
+                  className="w-full flex items-center gap-3 p-3 rounded-2xl border border-gray-100 hover:bg-gray-50 transition-colors text-left"
+                >
+                  <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
+                    {p.photo_url ? (
+                      <img src={p.photo_url} alt={p.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-[#3B0A0A]/40 font-bold">
+                        {p.name?.[0]}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-body)' }}>
+                      {p.name} liked your profile
+                    </p>
+                    <p className="text-xs text-[#3B0A0A]/50">TAP to view</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Profile modal */}
+      {selected && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4">
+          <div className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-xl">
+            <div className="relative h-72 bg-gray-100">
+              {selected.photo_url ? (
+                <img src={selected.photo_url} alt={selected.name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-[#3B0A0A]/30">No photo</div>
+              )}
+            </div>
+            <div className="p-5">
+              <h2 className="text-2xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
+                {selected.name}, {selected.age}
+              </h2>
+              {selected.bio && (
+                <p className="text-sm text-[#3B0A0A]/70 mt-2 mb-5" style={{ fontFamily: 'var(--font-body)' }}>
+                  {selected.bio}
+                </p>
+              )}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelected(null)}
+                  className="flex-1 py-3 rounded-full border border-gray-200 font-semibold text-[#3B0A0A]"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => likeBack(selected)}
+                  disabled={actionLoading}
+                  className="flex-1 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold disabled:opacity-50"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  {actionLoading ? '...' : 'Like back'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </main>
+  )
+}
