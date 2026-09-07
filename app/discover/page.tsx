@@ -51,7 +51,8 @@ export default function Discover() {
     setLoading(false)
   }, [user])
 
-  useEffect(() => {
+    useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadProfiles()
   }, [loadProfiles])
 
