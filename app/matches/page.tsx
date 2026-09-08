@@ -67,49 +67,32 @@ export default function Matches() {
 
   return (
     <main className="min-h-screen bg-white flex flex-col">
-      {/* Header */}
-          <header className="border-b border-gray-100">
+      <header className="border-b border-gray-100">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-5">
-            <Link
-              href="/discover"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/discover" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
               Discover
             </Link>
-            <Link
-              href="/likes"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/likes" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
               Likes
             </Link>
             <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
               Matches
             </h1>
-            <Link
-              href="/matches"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/matches" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
               Chat
             </Link>
           </div>
           <UserButton />
         </div>
       </header>
-      </header>
 
-      {/* Content */}
       <div className="flex-1 px-4 py-8">
         <div className="max-w-lg mx-auto">
           {loading ? (
             <div className="text-center py-20">
               <div className="w-10 h-10 rounded-full border-4 border-[#3B0A0A]/20 border-t-[#3B0A0A] animate-spin mx-auto mb-4"></div>
-              <p className="text-[#3B0A0A]/60" style={{ fontFamily: 'var(--font-body)' }}>
-                Loading matches...
-              </p>
+              <p className="text-[#3B0A0A]/60" style={{ fontFamily: 'var(--font-body)' }}>Loading matches...</p>
             </div>
           ) : matches.length === 0 ? (
             <div className="text-center py-20">
@@ -118,13 +101,9 @@ export default function Matches() {
                 No matches yet
               </p>
               <p className="text-[#3B0A0A]/60 text-sm mb-6" style={{ fontFamily: 'var(--font-body)' }}>
-                Keep discovering people. When you both like each other, they’ll appear here.
+                Keep discovering people. When you both like each other, they&apos;ll appear here.
               </p>
-              <Link
-                href="/discover"
-                className="inline-block px-6 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold hover:bg-[#5a1515] transition-colors"
-                style={{ fontFamily: 'var(--font-body)' }}
-              >
+              <Link href="/discover" className="inline-block px-6 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold" style={{ fontFamily: 'var(--font-body)' }}>
                 Start discovering
               </Link>
             </div>
@@ -138,15 +117,9 @@ export default function Matches() {
                 >
                   <div className="relative w-full aspect-[3/4] bg-gray-100">
                     {m.profile.photo_url ? (
-                      <img
-                        src={m.profile.photo_url}
-                        alt={m.profile.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
+                      <img src={m.profile.photo_url} alt={m.profile.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-[#3B0A0A]/30">
-                        No photo
-                      </div>
+                      <div className="w-full h-full flex items-center justify-center text-[#3B0A0A]/30">No photo</div>
                     )}
                     <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent">
                       <p className="text-white font-semibold text-sm" style={{ fontFamily: 'var(--font-body)' }}>

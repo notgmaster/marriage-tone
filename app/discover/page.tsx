@@ -51,7 +51,7 @@ export default function Discover() {
     setLoading(false)
   }, [user])
 
-    useEffect(() => {
+  useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadProfiles()
   }, [loadProfiles])
@@ -90,72 +90,42 @@ export default function Discover() {
 
   return (
     <main className="min-h-screen bg-white flex flex-col">
-      {/* Header */}
-          <header className="border-b border-gray-100">
+      <header className="border-b border-gray-100">
         <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-5">
             <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
               Discover
             </h1>
-            <Link
-              href="/likes"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/likes" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
               Likes
             </Link>
-            <Link
-              href="/matches"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/matches" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
               Matches
             </Link>
-            <Link
-              href="/matches"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/matches" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
               Chat
             </Link>
           </div>
           <UserButton />
         </div>
       </header>
-      </header>
 
-      {/* Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-8">
-        {/* Match modal */}
         {matchName && (
-          <div
-            className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4"
-            onClick={() => setMatchName(null)}
-          >
-            <div
-              className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
+          <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4" onClick={() => setMatchName(null)}>
+            <div className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
               <div className="text-4xl mb-3">💍</div>
               <h2 className="text-2xl font-bold text-[#3B0A0A] mb-2" style={{ fontFamily: 'var(--font-display)' }}>
-                It’s a match!
+                It&apos;s a match!
               </h2>
               <p className="text-[#3B0A0A]/70 mb-6" style={{ fontFamily: 'var(--font-body)' }}>
                 You and <span className="font-semibold">{matchName}</span> liked each other.
               </p>
               <div className="flex gap-3">
-                <button
-                  onClick={() => setMatchName(null)}
-                  className="flex-1 py-3 rounded-full border border-gray-200 text-[#3B0A0A] font-semibold hover:bg-gray-50 transition-colors"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
+                <button onClick={() => setMatchName(null)} className="flex-1 py-3 rounded-full border border-gray-200 text-[#3B0A0A] font-semibold" style={{ fontFamily: 'var(--font-body)' }}>
                   Keep browsing
                 </button>
-                <Link
-                  href="/matches"
-                  className="flex-1 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold hover:bg-[#5a1515] transition-colors text-center"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
+                <Link href="/matches" className="flex-1 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold text-center" style={{ fontFamily: 'var(--font-body)' }}>
                   Message
                 </Link>
               </div>
@@ -166,57 +136,34 @@ export default function Discover() {
         {loading ? (
           <div className="text-center">
             <div className="w-10 h-10 rounded-full border-4 border-[#3B0A0A]/20 border-t-[#3B0A0A] animate-spin mx-auto mb-4"></div>
-            <p className="text-[#3B0A0A]/60" style={{ fontFamily: 'var(--font-body)' }}>
-              Finding people...
-            </p>
+            <p className="text-[#3B0A0A]/60" style={{ fontFamily: 'var(--font-body)' }}>Finding people...</p>
           </div>
         ) : current ? (
           <div className="w-full max-w-sm">
-            {/* Card */}
             <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-100">
-              {/* Photo */}
               <div className="relative w-full h-96 bg-gray-100">
                 {current.photo_url ? (
-                  <img
-                    src={current.photo_url}
-                    alt={current.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={current.photo_url} alt={current.name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[#3B0A0A]/30">
-                    No photo
-                  </div>
+                  <div className="w-full h-full flex items-center justify-center text-[#3B0A0A]/30">No photo</div>
                 )}
-                {/* Name overlay */}
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
                   <h2 className="text-2xl font-bold text-white" style={{ fontFamily: 'var(--font-display)' }}>
                     {current.name}, {current.age}
                   </h2>
                 </div>
               </div>
-
-              {/* Info */}
               <div className="p-5">
                 {current.bio && (
                   <p className="text-[#3B0A0A]/80 text-sm leading-relaxed mb-4" style={{ fontFamily: 'var(--font-body)' }}>
                     {current.bio}
                   </p>
                 )}
-
-                {/* Action buttons */}
                 <div className="flex gap-3 mt-2">
-                  <button
-                    onClick={() => handleSwipe('pass')}
-                    className="flex-1 py-3.5 rounded-full border-2 border-gray-200 text-[#3B0A0A] font-semibold hover:bg-gray-50 transition-all active:scale-95"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  >
+                  <button onClick={() => handleSwipe('pass')} className="flex-1 py-3.5 rounded-full border-2 border-gray-200 text-[#3B0A0A] font-semibold" style={{ fontFamily: 'var(--font-body)' }}>
                     Pass
                   </button>
-                  <button
-                    onClick={() => handleSwipe('like')}
-                    className="flex-1 py-3.5 rounded-full bg-[#3B0A0A] text-white font-semibold hover:bg-[#5a1515] transition-all active:scale-95"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  >
+                  <button onClick={() => handleSwipe('like')} className="flex-1 py-3.5 rounded-full bg-[#3B0A0A] text-white font-semibold" style={{ fontFamily: 'var(--font-body)' }}>
                     Like
                   </button>
                 </div>
@@ -232,11 +179,7 @@ export default function Discover() {
             <p className="text-[#3B0A0A]/60 text-sm mb-6" style={{ fontFamily: 'var(--font-body)' }}>
               Check back later for new people.
             </p>
-            <Link
-              href="/matches"
-              className="inline-block px-6 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold hover:bg-[#5a1515] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
+            <Link href="/matches" className="inline-block px-6 py-3 rounded-full bg-[#3B0A0A] text-white font-semibold" style={{ fontFamily: 'var(--font-body)' }}>
               View matches
             </Link>
           </div>
