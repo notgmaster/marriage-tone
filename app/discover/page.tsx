@@ -91,29 +91,32 @@ export default function Discover() {
   return (
     <main className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="border-b border-gray-100">
-        <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
-          <div className="flex items-center gap-5">
-            <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
-              Discover
-              <Link
-  href="/likes"
-  className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-  style={{ fontFamily: 'var(--font-body)' }}
->
-  Likes
-</Link>
-            </h1>
-            <Link
-              href="/matches"
-              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
-              Matches
-            </Link>
-          </div>
-          <UserButton />
-        </div>
+     <div className="flex items-center gap-5">
+  <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
+    Discover
+  </h1>
+  <Link
+    href="/likes"
+    className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+    style={{ fontFamily: 'var(--font-body)' }}
+  >
+    Likes
+  </Link>
+  <Link
+    href="/matches"
+    className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+    style={{ fontFamily: 'var(--font-body)' }}
+  >
+    Matches
+  </Link>
+  <Link
+    href="/matches"
+    className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+    style={{ fontFamily: 'var(--font-body)' }}
+  >
+    Chat
+  </Link>
+</div>
       </header>
 
       {/* Content */}
