@@ -68,20 +68,38 @@ export default function Matches() {
   return (
     <main className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <div className="flex items-center gap-5">
-  <Link href="/discover" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
-    Discover
-  </Link>
-  <Link href="/likes" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
-    Likes
-  </Link>
-  <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
-    Matches
-  </h1>
-  <Link href="/matches" className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors" style={{ fontFamily: 'var(--font-body)' }}>
-    Chat
-  </Link>
-</div>      </header>
+          <header className="border-b border-gray-100">
+        <div className="max-w-lg mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-5">
+            <Link
+              href="/discover"
+              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              Discover
+            </Link>
+            <Link
+              href="/likes"
+              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              Likes
+            </Link>
+            <h1 className="text-xl font-bold text-[#3B0A0A]" style={{ fontFamily: 'var(--font-display)' }}>
+              Matches
+            </h1>
+            <Link
+              href="/matches"
+              className="text-sm font-medium text-[#3B0A0A]/60 hover:text-[#3B0A0A] transition-colors"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              Chat
+            </Link>
+          </div>
+          <UserButton />
+        </div>
+      </header>
+      </header>
 
       {/* Content */}
       <div className="flex-1 px-4 py-8">
